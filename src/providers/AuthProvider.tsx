@@ -10,7 +10,7 @@ type Props = {
 const AuthProvider = ({ children }: Props) => {
   const [authLoading, setAuthLoading] = useState(false);
   const [currentAuthUser, setCurrentAuthUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const signInWithGoogle = useCallback(async () => {
     try {
@@ -26,10 +26,12 @@ const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user: User | null) => {
       if (!user) {
-        setCurrentAuthUser(null);
+        setCurrentAuthUser(null)
+        setLoading(false);
         return;
       }
       setCurrentAuthUser(user);
+      setLoading(false);
     });
 
     return unsubscribe;

@@ -7,6 +7,7 @@ import LoginPage from "../pages/LoginPage";
 const CustomRoute = ({ children, path }: { children: React.ReactNode; path?: string }) => {
   const { currentAuthUser, loading } = useAuth();
   if (loading) return null;
+  console.log("currentAuthUser", currentAuthUser, "loading", loading);
   if (!currentAuthUser && path !== "/login") {
     return <Navigate to={"/login"} replace />;
   }

@@ -1,25 +1,16 @@
+import { addDoc, collection } from "firebase/firestore";
 import React, { useState, useRef } from "react";
 import { text } from "stream/consumers";
+import { db } from "../../firebaseConfig";
+import { TranscriptEntry, TranscriptRecord } from "../../types/types";
 
-interface FlagDetails {
-  tryInstead: string;
-  why: string;
-}
 
-interface TranscriptEntry {
-  transcribed: string;
-  userLabel: 'teacher' | 'student';
-  flag: string | null;
-  flagDetails: FlagDetails | null;
-}
 const NewRecordingContainer: React.FC = () => {
   const [recording, setRecording] = useState(false);
   const [transcript, setTranscript] = useState<TranscriptEntry[]>([]);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-
-
 
 
   const startRecording = async () => {
@@ -85,6 +76,13 @@ const NewRecordingContainer: React.FC = () => {
       const data = await response.json();
       console.log("Response data:", data);
       const analysisData = JSON.parse(data.analysis);
+      const record: TranscriptRecord = {
+        sentences: analysisData,
+        createdAt: new Date().toISOString(),
+        title: "Recording",
+      };
+      const colRef= collection(db, "transcripts");
+      addDoc(colRef, record);
       setTranscript(analysisData);
     } catch (error) {
       console.error("Error during transcription:", error);

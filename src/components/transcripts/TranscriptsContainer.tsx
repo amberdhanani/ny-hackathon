@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 const TranscriptsContainer = () => {
     const setSelectedTranscript = useSetRecoilState(selectedTranscriptAtom)
-    const selectedTranscript = useRecoilValue(selectedTranscriptAtom)
+
     const [transcripts, setTranscripts] = useState<TranscriptRecord[]>([])
     const navigate = useNavigate()
     useEffect(() => {
@@ -24,7 +24,7 @@ const TranscriptsContainer = () => {
     }, []) 
 const handleClick = (transcript: TranscriptRecord) => {
     console.log(transcript)
-    //setSelectedTranscript(transcript)
+    setSelectedTranscript(transcript)
     navigate('/transcript') 
 }
 

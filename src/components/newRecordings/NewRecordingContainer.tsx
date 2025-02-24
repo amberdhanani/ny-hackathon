@@ -12,7 +12,6 @@ const NewRecordingContainer: React.FC = () => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
-  console.log("Hi Amber!");
 
 
   const startRecording = async () => {

@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { TranscriptRecord } from "../types/types";
-export const transcriptIdAtom = atom<TranscriptRecord | null>({
-  key: "transcriptIdAtom",
+export const selectedTranscriptAtom = atom<TranscriptRecord | null>({
+  key: "selectedTranscriptAtom",
   default: null,
 });

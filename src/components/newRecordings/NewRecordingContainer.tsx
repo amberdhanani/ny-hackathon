@@ -1,6 +1,5 @@
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState, useRef } from "react";
-import { text } from "stream/consumers";
 import { db } from "../../firebaseConfig";
 import { TranscriptEntry, TranscriptRecord } from "../../types/types";
 

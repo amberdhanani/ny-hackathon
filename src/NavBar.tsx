@@ -8,20 +8,23 @@ import { useAuth } from "./contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 
-export default function NavBar({title}: {title: string}) {
-   const {logout} = useAuth();
-   const navigate = useNavigate();
+export default function NavBar({ title }: { title: string }) {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            ChatterCheck - {title}
-          </Typography>
-          <Button onClick={()=> {navigate ("/analytics")}} color="inherit">Analytics</Button>
-          <Button onClick={()=> {navigate ("/transcripts")}}color="inherit">Transcripts</Button>
-          <Button onClick={()=> {navigate ("/new-recording")}}color="inherit">New Recording</Button>
-          <Button onClick= { () => logout ()} color="inherit">Logout</Button>
+      <AppBar sx={{ backgroundColor: "#fff" }} position="static">
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Box>
+            <img src="/logo.svg" alt="logo" style={{ height: "64px" }} />
+          </Box>
+          <Box>
+            <Button onClick={() => { navigate("/analytics") }} sx={{ color: "rgba(1,9,65,.6)" }}>Analytics</Button>
+            <Button onClick={() => { navigate("/transcripts") }} sx={{ color: "rgba(1,9,65,.6)" }}>Transcripts</Button>
+            <Button onClick={() => { navigate("/new-recording") }} sx={{ color: "rgba(1,9,65,.6)" }}>New Recording</Button>
+          </Box>
+          <Box><Button onClick={() => logout()} sx={{ color: "rgba(1,9,65,.6)" }}>Logout</Button>
+            </Box>
         </Toolbar>
       </AppBar>
     </Box>

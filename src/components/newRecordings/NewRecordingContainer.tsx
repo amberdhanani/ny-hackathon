@@ -96,34 +96,7 @@ const NewRecordingContainer: React.FC = () => {
       <button onClick={recording ? stopRecording : startRecording}>
         {recording ? "Stop Recording" : "Start Recording"}
       </button>
-      <div>
-        <h3>Transcript:</h3>
-        <div style={styles.container}>
-          {transcript.map((entry, index) => (
-            <div
-              key={index}
-              style={{
-                ...styles.sentence,
-                ...(entry.userLabel === 'teacher'
-                  ? styles.teacher
-                  : styles.student),
-              }}
-              className="transcript-sentence"
-            >
-              <span style={styles.label}>{entry.userLabel}:</span>{' '}
-              <span style = {entry.flag==="negative"?styles.negativeText:entry.flag==="positive"? styles.positiveText:styles.text}>
-              {entry.transcribed}
-              </span>
-            </div>
-          ))}
-          {/* Inline style for hover effect */}
-          <style>{`
-        .transcript-sentence:hover {
-          text-decoration: underline;
-        }
-      `}</style>
-        </div>
-      </div>
+   
       {downloadUrl && (
         <div>
           <h3>Download Recording</h3>
@@ -138,39 +111,3 @@ const NewRecordingContainer: React.FC = () => {
 
 export default NewRecordingContainer
 
-const styles = {
-  container: {
-    fontFamily: 'Arial, sans-serif',
-    lineHeight: 1.6,
-    margin: '20px',
-  },
-  sentence: {
-    marginBottom: '10px',
-    padding: '10px',
-    cursor: 'pointer',
-    transition: 'text-decoration 0.2s',
-  },
-  teacher: {
-    backgroundColor: '#f0f8ff',
-    borderLeft: '3px solid #1e90ff',
-    paddingLeft: '10px',
-  },
-  student: {
-    backgroundColor: '#fff8dc',
-    borderLeft: '3px solid #ffa500',
-    paddingLeft: '10px',
-  },
-  label: {
-    fontWeight: 'bold',
-  },
-
-  text: {
-    color: 'black',
-  },
-  negativeText: {
-    color: 'red',
-  },
-  positiveText: {
-    color: 'green',
-  },  
-};

@@ -4,7 +4,7 @@ import TranscriptContainer from '../components/transcript/TranscriptContainer'
 
 const TranscriptPage = () => {
   return (
-    <div><NavBar title="Transcript" />
+    <div style={{width:"100%", height:"100vh", backgroundColor: "#EBEBF5"}}><NavBar title="Transcript" />
     <TranscriptContainer />
         </div>
   )

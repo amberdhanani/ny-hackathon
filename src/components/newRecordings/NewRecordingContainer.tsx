@@ -1,16 +1,23 @@
+//Updated NewRecordingContainer.tsx
+
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState, useRef } from "react";
-import { text } from "stream/consumers";
 import { db } from "../../firebaseConfig";
 import { TranscriptEntry, TranscriptRecord } from "../../types/types";
+import { Button } from "@mui/material";
+import { useSetRecoilState } from "recoil";
+import { selectedTranscriptAtom } from "../../recoil/atoms";
+import { useNavigate } from "react-router-dom";
 
 
 const NewRecordingContainer: React.FC = () => {
-  const [recording, setRecording] = useState(false);
-  const [transcript, setTranscript] = useState<TranscriptEntry[]>([]);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const setSelectedTranscript = useSetRecoilState(selectedTranscriptAtom);
+  const navigate = useNavigate();
 
 
 
@@ -31,7 +38,7 @@ const NewRecordingContainer: React.FC = () => {
 
       mediaRecorder.start();
       console.log("Recording started");
-      setRecording(true);
+      setIsRecording(true);
     } catch (err) {
       console.error("Error accessing microphone:", err);
     }
@@ -39,6 +46,8 @@ const NewRecordingContainer: React.FC = () => {
 
   const stopRecording = async () => {
     if (!mediaRecorderRef.current) return;
+    setIsTranscribing(true);
+    setIsRecording(false);
 
     // Wrap onstop in a promise to ensure we get the final Blob.
     const audioBlob: Blob = await new Promise((resolve, reject) => {
@@ -83,32 +92,36 @@ const NewRecordingContainer: React.FC = () => {
         title: "Recording",
       };
       const colRef= collection(db, "transcripts");
-      addDoc(colRef, record);
-      setTranscript(analysisData);
+      const createdDoc = await addDoc(colRef, record);
+      // write code that gets the id of the newly created record
+      setSelectedTranscript({ ...record, id: createdDoc.id });
+      setIsTranscribing(false);
+      navigate("/transcript")
     } catch (error) {
       console.error("Error during transcription:", error);
     }
 
-    setRecording(false);
+    
   };
 
   return (
     <div>
-      <button onClick={recording ? stopRecording : startRecording}>
-        {recording ? "Stop Recording" : "Start Recording"}
-      </button>
-   
-      {downloadUrl && (
+      {isRecording && (
         <div>
-          <h3>Download Recording</h3>
-          <a href={downloadUrl} download="recording.webm">
-            Download recording.webm
-          </a>
+          {/* Only shows if recording, replace with your LotieFile */}
+          <h3>Recording...</h3>
         </div>
       )}
+      {isTranscribing && (
+        <div><p>Transcribing</p></div>
+      )}
+      <div style={{ display: "flex", justifyContent: "center"}}>
+      <Button onClick={isRecording ? stopRecording : startRecording}>
+        {isRecording ? "Stop Recording" : "Start Recording"}
+      </Button>
+      </div>
     </div>
   );
 };
 
 export default NewRecordingContainer
-

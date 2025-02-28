@@ -3,12 +3,11 @@
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState, useRef } from "react";
 import { db } from "../../firebaseConfig";
-import { TranscriptEntry, TranscriptRecord } from "../../types/types";
+import { TranscriptRecord } from "../../types/types";
 import { Button } from "@mui/material";
 import { useSetRecoilState } from "recoil";
-import { selectedTranscriptAtom } from "../../recoil/atoms";
+import { selectedTranscriptAtom, transcriptsAtom } from "../../recoil/atoms";
 import { useNavigate } from "react-router-dom";
-
 
 const NewRecordingContainer: React.FC = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -17,9 +16,8 @@ const NewRecordingContainer: React.FC = () => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const setSelectedTranscript = useSetRecoilState(selectedTranscriptAtom);
+  const setTranscripts = useSetRecoilState(transcriptsAtom);
   const navigate = useNavigate();
-
-
 
   const startRecording = async () => {
     try {
@@ -75,33 +73,31 @@ const NewRecordingContainer: React.FC = () => {
 
     console.log("Sending FormData to transcription endpoint...");
     try {
-      const response = await fetch(
-        "http://127.0.0.1:5001/ny-edtech-hackathon/us-central1/api/transcribe",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch("http://127.0.0.1:5001/ny-edtech-hackathon/us-central1/api/transcribe", {
+        method: "POST",
+        body: formData,
+      });
       console.log("Response status:", response.status);
       const data = await response.json();
       console.log("Response data:", data);
       const analysisData = JSON.parse(data.analysis);
+      const title = JSON.parse(data.title);
       const record: TranscriptRecord = {
         sentences: analysisData,
         createdAt: new Date().toISOString(),
-        title: "Recording",
+        title: title || "Recording",
       };
-      const colRef= collection(db, "transcripts");
+      const colRef = collection(db, "transcripts");
       const createdDoc = await addDoc(colRef, record);
+      const transcriptRecord = { ...record, id: createdDoc.id };
       // write code that gets the id of the newly created record
-      setSelectedTranscript({ ...record, id: createdDoc.id });
+      setSelectedTranscript(transcriptRecord);
+      setTranscripts((oldTranscripts) => [transcriptRecord, ...oldTranscripts]);
       setIsTranscribing(false);
-      navigate("/transcript")
+      navigate("/transcript");
     } catch (error) {
       console.error("Error during transcription:", error);
     }
-
-    
   };
 
   return (
@@ -113,15 +109,17 @@ const NewRecordingContainer: React.FC = () => {
         </div>
       )}
       {isTranscribing && (
-        <div><p>Transcribing</p></div>
+        <div>
+          <p>Transcribing</p>
+        </div>
       )}
-      <div style={{ display: "flex", justifyContent: "center"}}>
-      <Button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? "Stop Recording" : "Start Recording"}
-      </Button>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Button onClick={isRecording ? stopRecording : startRecording}>
+          {isRecording ? "Stop Recording" : "Start Recording"}
+        </Button>
       </div>
     </div>
   );
 };
 
-export default NewRecordingContainer
+export default NewRecordingContainer;

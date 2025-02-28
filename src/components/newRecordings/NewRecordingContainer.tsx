@@ -1,3 +1,5 @@
+//Updated NewRecordingContainer.tsx
+
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState, useRef } from "react";
 import { db } from "../../firebaseConfig";
@@ -123,4 +125,3 @@ const NewRecordingContainer: React.FC = () => {
 };
 
 export default NewRecordingContainer
-

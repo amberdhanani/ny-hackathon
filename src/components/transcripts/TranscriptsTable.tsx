@@ -1,116 +1,86 @@
-import React from "react";
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import React, { useState } from "react";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { TranscriptRecord } from "../../types/types";
+import TranscriptRow from "./TranscriptRow";
+import DeleteTranscriptDialog from "./DeleteTranscriptDialog";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 import { useSetRecoilState } from "recoil";
-import { selectedTranscriptAtom } from "../../recoil/atoms";
-import { useNavigate } from "react-router-dom";
-import { isoToMMDDYYYY } from "../../utils/utils";
+import { transcriptsAtom } from "../../recoil/atoms";
 
 type Props = {
   transcripts: TranscriptRecord[];
 };
 
 const TranscriptsTable = ({ transcripts }: Props) => {
-  const setSelectedTranscript = useSetRecoilState(selectedTranscriptAtom);
-  const navigate = useNavigate();
+  // State to manage delete confirmation dialog
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [selectedTranscriptId, setSelectedTranscriptId] = useState<string | null>(null);
+  const setTranscripts = useSetRecoilState(transcriptsAtom);
 
-  const handleViewClick = (transcript: TranscriptRecord) => {
-    setSelectedTranscript(transcript);
-    navigate("/transcript");
+  // Confirm delete function
+  const confirmDelete = async () => {
+    if (!selectedTranscriptId) return;
+
+    try {
+      await deleteDoc(doc(db, "transcripts", selectedTranscriptId));
+
+      // Remove from state
+      setTranscripts((prev) => prev.filter((t) => t.id !== selectedTranscriptId));
+
+      console.log("Transcript deleted successfully");
+    } catch (error) {
+      console.error("Error deleting transcript:", error);
+    } finally {
+      setOpenDeleteDialog(false);
+      setSelectedTranscriptId(null);
+    }
   };
 
-  const countRecommendations = (transcript: TranscriptRecord) => {
-    return transcript.sentences.reduce((acc, sentence) => {
-      if (sentence.flag?.includes("negative")) {
-        return acc + 1;
-      }
-      return acc;
-    }, 0);
+  // Open delete confirmation dialog
+  const handleDeleteClick = (id: string | undefined) => {
+    if (!id) return;
+    setSelectedTranscriptId(id);
+    setOpenDeleteDialog(true);
   };
-
   return (
-    <TableContainer
-      component={Paper}
-      style={{
-        maxWidth: 800,
-        maxHeight: "60vh",
-        overflowY: "auto",
-      }}
-    >
-      <Table stickyHeader>
-        {/* Table Header */}
-        <TableHead>
-          <TableRow>
-            <TableCell
-              align="left"
-              style={{
-                position: "sticky",
-                top: 0,
-                background: "#fff",
-                zIndex: 2,
-              }}
-            >
-              <strong>Date</strong>
-            </TableCell>
-            <TableCell
-              align="left"
-              style={{
-                position: "sticky",
-                top: 0,
-                background: "#fff",
-                zIndex: 2,
-              }}
-            >
-              <strong>Title</strong>
-            </TableCell>
-            <TableCell
-              align="left"
-              style={{
-                position: "sticky",
-                top: 0,
-                background: "#fff",
-                zIndex: 2,
-              }}
-            >
-              <strong>Recommendations</strong>
-            </TableCell>
-            <TableCell
-              align="right"
-              style={{
-                position: "sticky",
-                top: 0,
-                background: "#fff",
-                zIndex: 2,
-              }}
-            >
-              <strong>Actions</strong>
-            </TableCell>
-          </TableRow>
-        </TableHead>
-
-        {/* Table Body */}
-        <TableBody>
-          {transcripts.map((transcript) => (
-            <TableRow key={transcript.id}>
-              <TableCell align="left">{isoToMMDDYYYY(transcript.createdAt)}</TableCell>
-              <TableCell align="left">{transcript.title}</TableCell>
-              <TableCell align="left">{countRecommendations(transcript)}</TableCell>
+    <>
+      {/* Transcripts Table */}
+      <TableContainer
+        component={Paper}
+        style={{
+          maxWidth: 800,
+          maxHeight: "60vh",
+          overflowY: "auto",
+        }}
+      >
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">
+                <strong>Date</strong>
+              </TableCell>
+              <TableCell align="left">
+                <strong>Title</strong>
+              </TableCell>
+              <TableCell align="left">
+                <strong>Recommendations</strong>
+              </TableCell>
               <TableCell align="right">
-                <IconButton onClick={() => handleViewClick(transcript)} title="View">
-                  <img src="/view-eyeball.svg" alt="View" width="24" height="24" />
-                </IconButton>
-                <IconButton title="Download">
-                  <img src="/download-icon.svg" alt="Download" width="24" height="24" />
-                </IconButton>
-                <IconButton title="Delete">
-                  <img src="/trash.svg" alt="Delete" width="24" height="24" />
-                </IconButton>
+                <strong>Actions</strong>
               </TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+
+          <TableBody>
+            {transcripts.map((transcript) => (
+              <TranscriptRow key={transcript.id} transcript={transcript} handleDeleteClick={handleDeleteClick} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <DeleteTranscriptDialog setOpen={setOpenDeleteDialog} open={openDeleteDialog} confirmDelete={confirmDelete} />
+    </>
   );
 };
 

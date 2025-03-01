@@ -38,9 +38,6 @@ const TranscriptRow = ({ transcript, handleDeleteClick }: Props) => {
         <IconButton onClick={() => handleViewClick(transcript)} title="View">
           <img src="/view-eyeball.svg" alt="View" width="24" height="24" />
         </IconButton>
-        <IconButton title="Download">
-          <img src="/download-icon.svg" alt="Download" width="24" height="24" />
-        </IconButton>
         <IconButton title="Delete" onClick={() => handleDeleteClick(transcript.id)}>
           <img src="/trash.svg" alt="Delete" width="24" height="24" />
         </IconButton>

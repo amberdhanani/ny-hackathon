@@ -43,6 +43,7 @@ const TranscriptsTable = ({ transcripts }: Props) => {
     setSelectedTranscriptId(id);
     setOpenDeleteDialog(true);
   };
+
   return (
     <>
       {/* Transcripts Table */}
@@ -57,29 +58,31 @@ const TranscriptsTable = ({ transcripts }: Props) => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell align="left">
-                <strong>Date</strong>
-              </TableCell>
-              <TableCell align="left">
-                <strong>Title</strong>
-              </TableCell>
-              <TableCell align="left">
-                <strong>Recommendations</strong>
-              </TableCell>
-              <TableCell align="right">
-                <strong>Actions</strong>
-              </TableCell>
+              <TableCell align="center"><strong>Date</strong></TableCell>
+              <TableCell align="center"><strong>Title</strong></TableCell>
+              <TableCell align="center"><strong>Recommendations</strong></TableCell>
+              <TableCell align="center"><strong>Actions</strong></TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
             {transcripts.map((transcript) => (
-              <TranscriptRow key={transcript.id} transcript={transcript} handleDeleteClick={handleDeleteClick} />
+              <TranscriptRow 
+                key={transcript.id} 
+                transcript={transcript} 
+                handleDeleteClick={handleDeleteClick} 
+              />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteTranscriptDialog setOpen={setOpenDeleteDialog} open={openDeleteDialog} confirmDelete={confirmDelete} />
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteTranscriptDialog 
+        setOpen={setOpenDeleteDialog} 
+        open={openDeleteDialog} 
+        confirmDelete={confirmDelete} 
+      />
     </>
   );
 };

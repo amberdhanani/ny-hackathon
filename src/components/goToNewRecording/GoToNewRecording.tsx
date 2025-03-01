@@ -34,6 +34,7 @@ const styles = {
     textAlign: "center",
     gap: 2,
     padding: 3,
+    justifyContent: "center",
   },
   image: {
     width: 200,

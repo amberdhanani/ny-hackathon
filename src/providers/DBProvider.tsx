@@ -1,5 +1,5 @@
 import { useSetRecoilState } from "recoil";
-import { transcriptsAtom } from "../recoil/atoms";
+import { siteLoadingAtom, transcriptsAtom } from "../recoil/atoms";
 import { JSX, useCallback, useEffect } from "react";
 import { TranscriptRecord } from "../types/types";
 import { collection, getDocs } from "firebase/firestore";
@@ -12,6 +12,7 @@ type Props = {
 
 export const DBProvider = ({ children }: Props) => {
   const setTranscripts = useSetRecoilState(transcriptsAtom);
+  const setSiteLoading = useSetRecoilState(siteLoadingAtom);
 
   type DataLoaderPromises = [Promise<TranscriptRecord[]>];
 
@@ -43,9 +44,10 @@ export const DBProvider = ({ children }: Props) => {
       const results = await Promise.all(dataLoaderPromises);
       const [tempTranscripts] = results;
       setTranscripts(tempTranscripts);
+      setSiteLoading(false);
     };
     loadData();
-  }, [getDataPromises, setTranscripts]);
+  }, [getDataPromises, setTranscripts, setSiteLoading]);
 
   return <DBContext.Provider value={null}>{children}</DBContext.Provider>;
 };

@@ -5,7 +5,7 @@ export interface FlagDetails {
 
 export interface TranscriptEntry {
   transcribed: string;
-  userLabel: 'teacher' | 'student';
+  userLabel: "teacher" | "student";
   flag: string | null;
   flagDetails: FlagDetails | null;
 }
@@ -15,8 +15,8 @@ export interface TranscriptRecord {
   sentences: TranscriptEntry[];
   createdAt: string;
   title: string;
+  duration: number;
 }
 
-
-//custom types are almost always objects 
+//custom types are almost always objects
 //a types file is created for CUSTOM TYPES

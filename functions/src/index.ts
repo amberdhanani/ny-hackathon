@@ -1,10 +1,9 @@
+import * as dotenv from "dotenv";
+dotenv.config(); // Ensure this runs first before any other imports
 import { onRequest } from "firebase-functions/v2/https";
 import express from "express";
 import cors from "cors";
-import * as dotenv from "dotenv";
 import { handleTranscription } from "./transcribeAudio";
-
-dotenv.config();
 
 const app = express();
 app.use(cors({ origin: true }));

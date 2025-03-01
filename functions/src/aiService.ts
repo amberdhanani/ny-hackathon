@@ -2,9 +2,9 @@ import OpenAI from "openai";
 import { context } from "./context";
 import { logInfo, logError } from "./logger";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 export const generateTitle = async (transcript: string): Promise<string> => {
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
   try {
     const prompt = `Generate a concise and engaging 5-10 word title for the following transcript: ${transcript}`;
     const response = await openai.chat.completions.create({
@@ -25,6 +25,8 @@ export const generateTitle = async (transcript: string): Promise<string> => {
 };
 
 export const analyzeTranscript = async (transcript: string): Promise<string> => {
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
   try {
     const prompt = `Analyze the following transcript and identify any segments that contain fixed mindset language. If you find any, please provide details on which parts exhibit a fixed mindset and explain why. Transcript: "${transcript}"`;
 

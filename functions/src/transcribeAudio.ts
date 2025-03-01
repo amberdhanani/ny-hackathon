@@ -10,7 +10,6 @@ export const handleTranscription = async (req: Request, res: Response) => {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   console.log("🔹 Incoming request to /transcribe");
-  console.log("📌 Request Headers:", req.headers);
 
   if (!req.headers["content-type"]?.includes("multipart/form-data")) {
     console.log("❌ Invalid content type");
@@ -54,6 +53,7 @@ export const handleTranscription = async (req: Request, res: Response) => {
       .map((word: any) => word.word)
       .join(" ")
       .replace(/\s([.,!?])/g, "$1");
+    const duration = words.length > 0 ? Math.ceil(words[words.length - 1].end) : 0;
 
     console.log("Formatted Transcript:", formattedTranscript);
 
@@ -88,7 +88,7 @@ export const handleTranscription = async (req: Request, res: Response) => {
 
     console.log("✅ Analysis received:", analysis);
     console.log("title", title);
-    return res.json({ transcript: formattedTranscript, title, analysis });
+    return res.json({ transcript: formattedTranscript, title, analysis, duration });
   } catch (error: unknown) {
     console.error("❌ Error processing request:", (error as Error).message);
     return res.status(500).json({ error: (error as Error).message || "Internal Server Error" });

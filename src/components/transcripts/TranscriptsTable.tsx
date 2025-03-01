@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { TranscriptRecord } from "../../types/types";
 import TranscriptRow from "./TranscriptRow";
 import DeleteTranscriptDialog from "./DeleteTranscriptDialog";
@@ -13,21 +13,19 @@ type Props = {
 };
 
 const TranscriptsTable = ({ transcripts }: Props) => {
-  // State to manage delete confirmation dialog
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [selectedTranscriptId, setSelectedTranscriptId] = useState<string | null>(null);
   const setTranscripts = useSetRecoilState(transcriptsAtom);
 
-  // Confirm delete function
+  /**
+   * Handles transcript deletion confirmation.
+   */
   const confirmDelete = async () => {
     if (!selectedTranscriptId) return;
 
     try {
       await deleteDoc(doc(db, "transcripts", selectedTranscriptId));
-
-      // Remove from state
       setTranscripts((prev) => prev.filter((t) => t.id !== selectedTranscriptId));
-
       console.log("Transcript deleted successfully");
     } catch (error) {
       console.error("Error deleting transcript:", error);
@@ -37,54 +35,54 @@ const TranscriptsTable = ({ transcripts }: Props) => {
     }
   };
 
-  // Open delete confirmation dialog
-  const handleDeleteClick = (id: string | undefined) => {
-    if (!id) return;
-    setSelectedTranscriptId(id);
-    setOpenDeleteDialog(true);
+  /**
+   * Opens delete confirmation dialog for a selected transcript.
+   */
+  const handleDeleteClick = (id?: string) => {
+    if (id) {
+      setSelectedTranscriptId(id);
+      setOpenDeleteDialog(true);
+    }
   };
 
   return (
     <>
       {/* Transcripts Table */}
-      <TableContainer
-        component={Paper}
-        style={{
-          maxWidth: 800,
-          maxHeight: "60vh",
-          overflowY: "auto",
-        }}
-      >
-        <Table stickyHeader>
+      <TableContainer sx={tableContainerStyles}>
+        <Table stickyHeader sx={{ width: "100%", tableLayout: "fixed" }}>
           <TableHead>
             <TableRow>
-              <TableCell align="center"><strong>Date</strong></TableCell>
-              <TableCell align="center"><strong>Title</strong></TableCell>
-              <TableCell align="center"><strong>Recommendations</strong></TableCell>
-              <TableCell align="center"><strong>Actions</strong></TableCell>
+              {["Date", "Title", "Recommendations", "Actions"].map((header) => (
+                <TableCell key={header} align="left" sx={tableHeaderStyles}>
+                  {header}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
-
           <TableBody>
             {transcripts.map((transcript) => (
-              <TranscriptRow 
-                key={transcript.id} 
-                transcript={transcript} 
-                handleDeleteClick={handleDeleteClick} 
-              />
+              <TranscriptRow key={transcript.id} transcript={transcript} handleDeleteClick={handleDeleteClick} />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
 
       {/* Delete Confirmation Dialog */}
-      <DeleteTranscriptDialog 
-        setOpen={setOpenDeleteDialog} 
-        open={openDeleteDialog} 
-        confirmDelete={confirmDelete} 
-      />
+      <DeleteTranscriptDialog setOpen={setOpenDeleteDialog} open={openDeleteDialog} confirmDelete={confirmDelete} />
     </>
   );
 };
 
 export default TranscriptsTable;
+
+// Extracted styles
+const tableContainerStyles = {
+  width: "100%",
+  maxHeight: "60vh",
+  overflowY: "auto",
+};
+
+const tableHeaderStyles = {
+  backgroundColor: "rgba(79, 70, 229, 0.06)",
+  fontWeight: "bold",
+};

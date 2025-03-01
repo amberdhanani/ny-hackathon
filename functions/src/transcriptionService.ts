@@ -2,9 +2,9 @@ import fs from "fs";
 import OpenAI from "openai";
 import { logInfo, logError } from "./logger";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 export const transcribeAudio = async (filePath: string) => {
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
   try {
     logInfo(`🚀 Sending file "${filePath}" to OpenAI for transcription...`);
 

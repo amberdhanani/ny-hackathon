@@ -20,7 +20,13 @@ export const handleTranscription = async (req: Request, res: Response) => {
 
     // Perform transcription
     const transcription = await transcribeAudio(filePath);
-    const formattedTranscript = transcription.words?.map((word: { word: string }) => word.word).join(" ") || "";
+
+    // Extract words and duration
+    const words = transcription.words ?? [];
+    const formattedTranscript = words.map((word: { word: string }) => word.word).join(" ") || "";
+
+    // Determine recording duration (in seconds)
+    const duration = words.length > 0 ? Math.ceil(words[words.length - 1].end) : 0;
 
     if (!formattedTranscript) {
       logWarning("⚠️ No words detected in the transcript.");
@@ -28,6 +34,7 @@ export const handleTranscription = async (req: Request, res: Response) => {
         transcript: "No speech detected.",
         analysis: "No speech detected.",
         title: "No speech detected.",
+        duration: 0,
       });
     }
 
@@ -37,7 +44,9 @@ export const handleTranscription = async (req: Request, res: Response) => {
       analyzeTranscript(formattedTranscript),
     ]);
 
-    return res.json({ transcript: formattedTranscript, title, analysis });
+    console.log("The duration is", duration);
+
+    return res.json({ transcript: formattedTranscript, title, analysis, duration });
   } catch (error) {
     handleError(error, res);
     return;

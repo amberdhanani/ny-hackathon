@@ -25,11 +25,12 @@ const NewRecordingContainer: React.FC = () => {
     }
 
     try {
-      const { sentences, title } = await transcribeAudio(audioBlob);
+      const { sentences, title, duration } = await transcribeAudio(audioBlob);
       const transcriptRecord = await saveTranscript({
         sentences,
         createdAt: new Date().toISOString(),
         title,
+        duration,
       });
 
       setSelectedTranscript(transcriptRecord);

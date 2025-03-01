@@ -4,7 +4,7 @@ import TranscriptsContainer from "../components/transcripts/TranscriptsContainer
 
 const TranscriptsPage = () => {
   return (
-    <div style={{ width: "100%", height: "100vh", backgroundColor: "#EBEBF5" }}>
+    <div style={{ width: "100%", height: "100vh" }}>
       <NavBar title="Transcript" />
       <TranscriptsContainer />
     </div>

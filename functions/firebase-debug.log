@@ -1126,3 +1126,169 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
+[debug] [2025-03-01T20:39:07.031Z] ----------------------------------------------------------------------
+[debug] [2025-03-01T20:39:07.033Z] Command:       /usr/local/bin/node /usr/local/bin/firebase emulators:start --only functions
+[debug] [2025-03-01T20:39:07.033Z] CLI Version:   13.31.1
+[debug] [2025-03-01T20:39:07.033Z] Platform:      darwin
+[debug] [2025-03-01T20:39:07.033Z] Node Version:  v22.14.0
+[debug] [2025-03-01T20:39:07.033Z] Time:          Sat Mar 01 2025 14:39:07 GMT-0600 (Central Standard Time)
+[debug] [2025-03-01T20:39:07.033Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-03-01T20:39:07.139Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-03-01T20:39:07.139Z] > authorizing via signed-in user (amberdhanani@gmail.com)
+[info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
+[debug] [2025-03-01T20:39:07.309Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-03-01T20:39:07.309Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-03-01T20:39:07.311Z] [hub] writing locator at /var/folders/94/_mlsy4t90pnf4jz2q7hwhw_h0000gn/T/hub-ny-edtech-hackathon.json
+[debug] [2025-03-01T20:39:07.558Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-03-01T20:39:07.558Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-03-01T20:39:07.558Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-03-01T20:39:07.558Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, auth, firestore, database, hosting, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, auth, firestore, database, hosting, pubsub, storage, dataconnect\u001b[22m"}}
+[debug] [2025-03-01T20:39:07.560Z] defaultcredentials: writing to file /Users/amberdhanani/.config/firebase/amberdhanani_gmail_com_application_default_credentials.json
+[debug] [2025-03-01T20:39:07.563Z] Setting GAC to /Users/amberdhanani/.config/firebase/amberdhanani_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/amberdhanani/.config/firebase/amberdhanani_gmail_com_application_default_credentials.json"}}
+[debug] [2025-03-01T20:39:07.563Z] Checked if tokens are valid: false, expires at: 1740859784017
+[debug] [2025-03-01T20:39:07.563Z] Checked if tokens are valid: false, expires at: 1740859784017
+[debug] [2025-03-01T20:39:07.563Z] > refreshing access token with scopes: []
+[debug] [2025-03-01T20:39:07.564Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-03-01T20:39:07.564Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-03-01T20:39:07.651Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-03-01T20:39:07.651Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-03-01T20:39:07.660Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ny-edtech-hackathon/adminSdkConfig [none]
+[debug] [2025-03-01T20:39:07.862Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ny-edtech-hackathon/adminSdkConfig 200
+[debug] [2025-03-01T20:39:07.862Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ny-edtech-hackathon/adminSdkConfig {"projectId":"ny-edtech-hackathon","storageBucket":"ny-edtech-hackathon.firebasestorage.app"}
+[info] i  functions: Watching "/Users/amberdhanani/Documents/ny-hackathon/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/amberdhanani/Documents/ny-hackathon/functions\" for Cloud Functions..."}}
+[debug] [2025-03-01T20:39:07.885Z] Validating nodejs source
+[debug] [2025-03-01T20:39:08.283Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "busboy": "^1.6.0",
+    "dotenv": "^16.4.7",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.85.1"
+  },
+  "devDependencies": {
+    "@types/busboy": "^1.5.4",
+    "@types/dotenv": "^8.2.3",
+    "@types/multer": "^1.4.12",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^10.0.2",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^5.2.3",
+    "firebase-functions-test": "^3.1.0",
+    "prettier": "^3.5.2",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2025-03-01T20:39:08.283Z] Building nodejs source
+[debug] [2025-03-01T20:39:08.284Z] Failed to find version of module node: reached end of search path /Users/amberdhanani/Documents/ny-hackathon/functions/node_modules
+[info] ✔  functions: Using node@22 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2025-03-01T20:39:08.286Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-03-01T20:39:08.289Z] Found firebase-functions binary at '/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8777
+
+[debug] [2025-03-01T20:39:08.521Z] Got response from /__/functions.yaml {"endpoints":{"api":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"api"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] ✔  functions: Loaded functions definitions from source: api. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: api."}}
+[info] ✔  functions[us-central1-api]: http function initialized (http://127.0.0.1:5001/ny-edtech-hackathon/us-central1/api). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/ny-edtech-hackathon/us-central1/api)."}}
+[debug] [2025-03-01T20:39:12.540Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2025-03-01T20:45:00.588Z] [work-queue] {"queuedWork":["/ny-edtech-hackathon/us-central1/api/transcribe-2025-03-01T20:45:00.588Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2025-03-01T20:45:00.589Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/ny-edtech-hackathon/us-central1/api/transcribe-2025-03-01T20:45:00.588Z"],"workRunningCount":1}
+[debug] [2025-03-01T20:45:00.589Z] Accepted request POST /ny-edtech-hackathon/us-central1/api/transcribe --> us-central1-api
+[debug] [2025-03-01T20:45:00.593Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2025-03-01T20:45:00.593Z] [functions] Got req.url=/ny-edtech-hackathon/us-central1/api/transcribe, mapping to path=/transcribe {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/ny-edtech-hackathon/us-central1/api/transcribe, mapping to path=/transcribe"}}
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2025-03-01T20:45:00.598Z] [worker-pool] addWorker(us-central1-api) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-api)"}}
+[debug] [2025-03-01T20:45:00.599Z] [worker-pool] Adding worker with key us-central1-api, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-api, total=1"}}
+[debug] [2025-03-01T20:45:01.242Z] [runtime-status] [60232] Resolved module firebase-admin {"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2025-03-01T20:45:01.242Z] [runtime-status] [60232] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js\"}"}}
+[debug] [2025-03-01T20:45:01.242Z] [runtime-status] [60232] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2025-03-01T20:45:01.242Z] [runtime-status] [60232] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js\"}"}}
+[debug] [2025-03-01T20:45:01.424Z] [runtime-status] [60232] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Checked functions.config() {\"config\":{}}"}}
+[debug] [2025-03-01T20:45:01.424Z] [runtime-status] [60232] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"6.3.2","resolution":"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js\"}}"}}
+[debug] [2025-03-01T20:45:01.424Z] [runtime-status] [60232] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js\"}"}}
+[debug] [2025-03-01T20:45:01.426Z] [runtime-status] [60232] Resolved module firebase-admin {"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2025-03-01T20:45:01.427Z] [runtime-status] [60232] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.3.2","resolution":"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.3.2\",\"resolution\":\"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-functions/lib/v2/index.js\"}"}}
+[debug] [2025-03-01T20:45:01.427Z] [runtime-status] [60232] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/amberdhanani/Documents/ny-hackathon/functions/node_modules/firebase-admin/lib/index.js\"}}"}}
+[debug] [2025-03-01T20:45:01.520Z] [runtime-status] [60232] Functions runtime initialized. {"cwd":"/Users/amberdhanani/Documents/ny-hackathon/functions","node_version":"22.14.0"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Functions runtime initialized. {\"cwd\":\"/Users/amberdhanani/Documents/ny-hackathon/functions\",\"node_version\":\"22.14.0\"}"}}
+[debug] [2025-03-01T20:45:01.520Z] [runtime-status] [60232] Listening to port: /var/folders/94/_mlsy4t90pnf4jz2q7hwhw_h0000gn/T/fire_emu_f4c261c5232148cc.sock {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [60232] Listening to port: /var/folders/94/_mlsy4t90pnf4jz2q7hwhw_h0000gn/T/fire_emu_f4c261c5232148cc.sock"}}
+[debug] [2025-03-01T20:45:01.615Z] [worker-us-central1-api-4704f30a-a426-4de4-9ab1-3db943c0ba2f]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-4704f30a-a426-4de4-9ab1-3db943c0ba2f]: IDLE"}}
+[debug] [2025-03-01T20:45:01.616Z] [worker-pool] submitRequest(triggerId=us-central1-api) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-api)"}}
+[info] i  functions: Beginning execution of "us-central1-api" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Beginning execution of \"us-central1-api\""}}
+[debug] [2025-03-01T20:45:01.616Z] [worker-us-central1-api-4704f30a-a426-4de4-9ab1-3db943c0ba2f]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-4704f30a-a426-4de4-9ab1-3db943c0ba2f]: BUSY"}}
+[info] >  🔹 Incoming request to /transcribe {"user":"🔹 Incoming request to /transcribe","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m 🔹 Incoming request to /transcribe"}}
+[info] >  🟡 Reading full request body... {"user":"🟡 Reading full request body...","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m 🟡 Reading full request body..."}}
+[info] >  📦 Total request body size: 54397 bytes {"user":"📦 Total request body size: 54397 bytes","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m 📦 Total request body size: 54397 bytes"}}
+[info] >  🟡 Parsing file using Busboy... {"user":"🟡 Parsing file using Busboy...","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m 🟡 Parsing file using Busboy..."}}
+[info] >  ⚠️ Warning: filename is not a string, using default. {"user":"⚠️ Warning: filename is not a string, using default.","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m ⚠️ Warning: filename is not a string, using default."}}
+[info] >  📂 File detected: unknown_file.webm (Type: audio/webm) {"user":"📂 File detected: unknown_file.webm (Type: audio/webm)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m 📂 File detected: unknown_file.webm (Type: audio/webm)"}}
+[info] >  ✅ File saved to: /var/folders/94/_mlsy4t90pnf4jz2q7hwhw_h0000gn/T/unknown_file.webm {"user":"✅ File saved to: /var/folders/94/_mlsy4t90pnf4jz2q7hwhw_h0000gn/T/unknown_file.webm","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m ✅ File saved to: /var/folders/94/_mlsy4t90pnf4jz2q7hwhw_h0000gn/T/unknown_file.webm"}}
+[info] >  🚀 Sending file "unknown_file.webm" to OpenAI for transcription... {"user":"🚀 Sending file \"unknown_file.webm\" to OpenAI for transcription...","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m 🚀 Sending file \"unknown_file.webm\" to OpenAI for transcription..."}}
+[warn] ⚠  External network resource requested!
+   - URL: "https://api.openai.com/v1/audio/transcriptions"
+ - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"External network resource requested!\n   - URL: \"https://api.openai.com/v1/audio/transcriptions\"\n - Be careful, this may be a production service."}}
+[info] >  ✅ Transcription received: { {"user":"✅ Transcription received: {","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m ✅ Transcription received: {"}}
+[info] >    task: 'transcribe', {"user":"  task: 'transcribe',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m   task: 'transcribe',"}}
+[info] >    language: 'english', {"user":"  language: 'english',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m   language: 'english',"}}
+[info] >    duration: 3.6600000858306885, {"user":"  duration: 3.6600000858306885,","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m   duration: 3.6600000858306885,"}}
+[info] >    text: 'you', {"user":"  text: 'you',","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m   text: 'you',"}}
+[info] >    words: [ { word: 'you', start: 2.240000009536743, end: 3.640000104904175 } ] {"user":"  words: [ { word: 'you', start: 2.240000009536743, end: 3.640000104904175 } ]","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m   words: [ { word: 'you', start: 2.240000009536743, end: 3.640000104904175 } ]"}}
+[info] >  } {"user":"}","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m }"}}
+[info] >  Formatted Transcript: you {"user":"Formatted Transcript: you","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m Formatted Transcript: you"}}
+[warn] ⚠  External network resource requested!
+   - URL: "https://api.openai.com/v1/chat/completions"
+ - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"External network resource requested!\n   - URL: \"https://api.openai.com/v1/chat/completions\"\n - Be careful, this may be a production service."}}
+[info] >  ✅ Title generated: "Encouraging Growth Mindset in Classroom Conversations" {"user":"✅ Title generated: \"Encouraging Growth Mindset in Classroom Conversations\"","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m ✅ Title generated: \"Encouraging Growth Mindset in Classroom Conversations\""}}
+[info] >  ✅ Analysis received: ```json {"user":"✅ Analysis received: ```json","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m ✅ Analysis received: ```json"}}
+[info] >  [ {"user":"[","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m ["}}
+[info] >    { {"user":"  {","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m   {"}}
+[info] >      "transcribed": "you", {"user":"    \"transcribed\": \"you\",","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m     \"transcribed\": \"you\","}}
+[info] >      "userLabel": "teacher", {"user":"    \"userLabel\": \"teacher\",","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m     \"userLabel\": \"teacher\","}}
+[info] >      "flag": null, {"user":"    \"flag\": null,","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m     \"flag\": null,"}}
+[info] >      "flagDetails": null {"user":"    \"flagDetails\": null","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m     \"flagDetails\": null"}}
+[info] >    } {"user":"  }","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m   }"}}
+[info] >  ] {"user":"]","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m ]"}}
+[info] >  ``` {"user":"```","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m ```"}}
+[info] >  title "Encouraging Growth Mindset in Classroom Conversations" {"user":"title \"Encouraging Growth Mindset in Classroom Conversations\"","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m title \"Encouraging Growth Mindset in Classroom Conversations\""}}
+[debug] [2025-03-01T20:45:04.243Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-api" in 2627.658417ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finished \"us-central1-api\" in 2627.658417ms"}}
+[debug] [2025-03-01T20:45:04.244Z] [worker-us-central1-api-4704f30a-a426-4de4-9ab1-3db943c0ba2f]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-4704f30a-a426-4de4-9ab1-3db943c0ba2f]: IDLE"}}
+[debug] [2025-03-01T20:45:04.244Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2025-03-01T20:45:04.244Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2025-03-01T20:45:04.245Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}

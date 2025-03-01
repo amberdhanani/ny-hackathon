@@ -10,3 +10,8 @@ export const transcriptsAtom = atom<TranscriptRecord[]>({
   key: "transcriptsAtom",
   default: [],
 });
+
+export const siteLoadingAtom = atom<boolean>({
+  key: "siteLoadingAtom",
+  default: true,
+});

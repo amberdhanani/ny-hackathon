@@ -1,12 +1,20 @@
 import { useRecoilValue } from "recoil";
 import TranscriptsTable from "./TranscriptsTable";
-import { transcriptsAtom } from "../../recoil/atoms";
+import { siteLoadingAtom, transcriptsAtom } from "../../recoil/atoms";
+import { Box, CircularProgress } from "@mui/material";
 
 const TranscriptsContainer = () => {
   const transcripts = useRecoilValue(transcriptsAtom);
+  const siteLoading = useRecoilValue(siteLoadingAtom);
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}>
-      <TranscriptsTable transcripts={transcripts} />
+      {siteLoading ? (
+        <Box>
+          <CircularProgress size={80} sx={{ color: "#4F46E5" }} />
+        </Box>
+      ) : (
+        <TranscriptsTable transcripts={transcripts} />
+      )}
     </div>
   );
 };

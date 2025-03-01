@@ -1,120 +1,54 @@
-//Updated NewRecordingContainer.tsx
-
-import { addDoc, collection } from "firebase/firestore";
-import React, { useState, useRef } from "react";
-import { db } from "../../firebaseConfig";
-import { TranscriptRecord } from "../../types/types";
-import { Button } from "@mui/material";
+import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { selectedTranscriptAtom, transcriptsAtom } from "../../recoil/atoms";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import { selectedTranscriptAtom, transcriptsAtom } from "../../recoil/atoms";
+import { useAudioRecorder } from "../../hooks/useAudioRecorder";
+import { transcribeAudio } from "../../utils/transcribeAudio";
+import { saveTranscript } from "../../utils/saveTranscript";
 
 const NewRecordingContainer: React.FC = () => {
-  const [isRecording, setIsRecording] = useState(false);
+  const { isRecording, startRecording, stopRecording } = useAudioRecorder();
   const [isTranscribing, setIsTranscribing] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
   const setSelectedTranscript = useSetRecoilState(selectedTranscriptAtom);
   const setTranscripts = useSetRecoilState(transcriptsAtom);
   const navigate = useNavigate();
 
-  const startRecording = async () => {
-    try {
-      // Clear previous download URL
-      setDownloadUrl(null);
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorder.start();
-      console.log("Recording started");
-      setIsRecording(true);
-    } catch (err) {
-      console.error("Error accessing microphone:", err);
-    }
-  };
-
-  const stopRecording = async () => {
-    if (!mediaRecorderRef.current) return;
+  const handleStopRecording = async () => {
     setIsTranscribing(true);
-    setIsRecording(false);
+    const audioBlob = await stopRecording();
 
-    // Wrap onstop in a promise to ensure we get the final Blob.
-    const audioBlob: Blob = await new Promise((resolve, reject) => {
-      mediaRecorderRef.current!.onstop = () => {
-        const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
-        resolve(blob);
-      };
-      mediaRecorderRef.current!.onerror = (e) => reject(e);
-      mediaRecorderRef.current!.stop();
-    });
-
-    console.log("Recorded blob size:", audioBlob.size);
-    if (audioBlob.size === 0) {
+    if (!audioBlob || audioBlob.size === 0) {
       console.error("Empty audio blob; aborting upload.");
+      setIsTranscribing(false);
       return;
     }
 
-    // Create a download URL so the file can be saved locally.
-    const url = URL.createObjectURL(audioBlob);
-    setDownloadUrl(url);
-
-    // Build FormData and send the file to your cloud function.
-    const formData = new FormData();
-    formData.append("audio", audioBlob, "recording.webm");
-
-    console.log("Sending FormData to transcription endpoint...");
     try {
-      const response = await fetch("http://127.0.0.1:5001/ny-edtech-hackathon/us-central1/api/transcribe", {
-        method: "POST",
-        body: formData,
-      });
-      console.log("Response status:", response.status);
-      const data = await response.json();
-      console.log("Response data:", data);
-      const analysisData = JSON.parse(data.analysis);
-      const title = JSON.parse(data.title);
-      const record: TranscriptRecord = {
-        sentences: analysisData,
+      const { sentences, title } = await transcribeAudio(audioBlob);
+      const transcriptRecord = await saveTranscript({
+        sentences,
         createdAt: new Date().toISOString(),
-        title: title || "Recording",
-      };
-      const colRef = collection(db, "transcripts");
-      const createdDoc = await addDoc(colRef, record);
-      const transcriptRecord = { ...record, id: createdDoc.id };
-      // write code that gets the id of the newly created record
+        title,
+      });
+
       setSelectedTranscript(transcriptRecord);
-      setTranscripts((oldTranscripts) => [transcriptRecord, ...oldTranscripts]);
-      setIsTranscribing(false);
+      setTranscripts((prev) => [transcriptRecord, ...prev]);
       navigate("/transcript");
     } catch (error) {
-      console.error("Error during transcription:", error);
+      console.error("Error processing transcription:", error);
+    } finally {
+      setIsTranscribing(false);
     }
   };
 
   return (
     <div>
-      {isRecording && (
-        <div>
-          {/* Only shows if recording, replace with your LotieFile */}
-          <h3>Recording...</h3>
-        </div>
-      )}
-      {isTranscribing && (
-        <div>
-          <p>Transcribing</p>
-        </div>
-      )}
+      {isRecording && <h3>Recording...</h3>}
+      {isTranscribing && <p>Transcribing...</p>}
+
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button onClick={isRecording ? stopRecording : startRecording}>
+        <Button onClick={isRecording ? handleStopRecording : startRecording}>
           {isRecording ? "Stop Recording" : "Start Recording"}
         </Button>
       </div>

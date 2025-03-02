@@ -34,7 +34,7 @@ const TranscriptRow = ({ transcript, handleDeleteClick }: Props) => {
   return (
     <TableRow>
       <TableCell align="left">{isoToMMDDYYYY(transcript.createdAt)}</TableCell>
-      <TableCell align="left">{transcript.title}</TableCell>
+      <TableCell sx={{fontFamily: "nunito,sans-serif"}} align="left">{transcript.title}</TableCell>
       <TableCell align="left">
         <Chip label={`${numberOfRecommendations} recommendations`} sx={getChipStyles(numberOfRecommendations)} />
       </TableCell>

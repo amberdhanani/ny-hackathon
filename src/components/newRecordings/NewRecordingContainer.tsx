@@ -70,13 +70,22 @@ const NewRecordingContainer: React.FC = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
+    <Box
+      sx={{
+        height: "100vh", // Full viewport height
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center", // Centers vertically
+        alignItems: "center", // Centers horizontally
+        textAlign: "center",
+      }}
+    >
       {isRecording && (
         <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
           <Lottie animationData={recordingAnimation} loop style={{ width: 450, height: 450 }} />
         </Box>
       )}
-
+  
       {isTranscribing && (
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px" }}>
           <Lottie animationData={loadingAnimation} loop style={{ width: 450, height: 450 }} />
@@ -85,18 +94,54 @@ const NewRecordingContainer: React.FC = () => {
           </Typography>
         </Box>
       )}
-
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-        <Button
-          variant="contained"
-          color={isRecording ? "secondary" : "primary"}
-          onClick={isRecording ? handleStopRecording : startRecording}
-        >
-          {isRecording ? "Stop Recording" : "Start Recording"}
-        </Button>
-      </div>
-    </div>
+  
+      {/* Display the SVG image when not recording or transcribing */}
+      {!isRecording && !isTranscribing && (
+        <Box sx={{ width: "75%", maxWidth: "900px", marginBottom: "20px" }}>
+          <img
+            src="/assets/recordingmsg.svg"
+            alt="Recording Message"
+            style={{
+              width: "100%", // Takes full width of parent (75% of screen)
+              height: "auto",
+              display: "block",
+            }}
+          />
+        </Box>
+      )}
+  
+      {/* Centered Button */}
+      <Button
+  variant="contained"
+  onClick={isRecording ? handleStopRecording : startRecording}
+  sx={{
+    display: "flex",
+    padding: "12px 16px",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "8px",
+    borderRadius: "8px",
+    border: "1px solid #030217",
+    backgroundColor: isRecording ? "rgba(233, 26, 71, 0.1)" : "#4F46E5", // 10% opacity red for stop, purple for start
+    boxShadow: "2px 2px 0px 0px #030217",
+    fontSize: "16px",
+    color: isRecording ? "#E91A47" : "#fff", // Solid red text for stop, white for start
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: isRecording ? "rgba(233, 26, 71, 0.2)" : "#4338CA", // Slightly darker on hover
+      boxShadow: "2px 2px 0px 0px #030217",
+    },
+    "&:active": {
+      transform: "translate(1px, 1px)",
+      boxShadow: "1px 1px 0px 0px #030217",
+    },
+  }}
+>
+  {isRecording ? "Stop Recording" : "Start Recording"}
+</Button>
+    </Box>
   );
+  
 };
 
 export default NewRecordingContainer;

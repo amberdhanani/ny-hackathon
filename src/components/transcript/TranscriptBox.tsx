@@ -41,7 +41,6 @@ export default TranscriptBox;
 const paperStyles = {
   backgroundColor: "#fff",
   display: "flex",
-  marginBottom: "20px",
   padding: "8px",
   borderRadius: 2,
   height: "calc(80vh - 200px)",
@@ -51,7 +50,8 @@ const paperStyles = {
 const contentBoxStyles = {
   display: "flex",
   flexDirection: "column",
-  padding: "24px",
+  paddingX: "24px",
+  paddingY: "4px",
   borderRadius: 2,
   border: "2px dashed #B6B2FF",
   boxSizing: "border-box",

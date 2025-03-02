@@ -58,7 +58,7 @@ export const handleTranscription = async (req: Request, res: Response) => {
     console.log("Formatted Transcript:", formattedTranscript);
 
     // Generate a title for the transcript
-    const titlePrompt = `Generate a concise and engaging 5-10 word title for the following transcript: ${formattedTranscript}`;
+    const titlePrompt = `Generate a concise, engaging, and natural-language title (5-10 words max) for the following transcript. Return only the title text with no additional formatting, explanations, or JSON output: ${formattedTranscript}`;
     const titleResponse = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
@@ -67,11 +67,20 @@ export const handleTranscription = async (req: Request, res: Response) => {
       ],
     });
 
-    const title = titleResponse.choices?.[0]?.message?.content?.trim() ?? "Untitled Transcript";
+    const titleRaw = titleResponse.choices?.[0]?.message?.content?.trim() ?? "Untitled Transcript";
+
+    const cleanTitle = (text: string) => {
+      return text
+        .replace(/[`{}[\]]/g, "")
+        .trim()
+        .slice(0, 100);
+    };
+
+    const title = cleanTitle(titleRaw);
 
     console.log("✅ Title generated:", title);
 
-    const analysisPrompt = `Analyze the following transcript and identify any segments that contain fixed mindset language. Return your results as raw json in the format explained in the system context. If you find any, please provide details on which parts exhibit a fixed mindset and explain why. Transcript: "${formattedTranscript}"`;
+    const analysisPrompt = `Analyze the following transcript and identify any segments that contain fixed mindset language. Return your results as raw json in the format explained in the system context. If you find any, please provide details on which parts exhibit a fixed mindset and explain why. Make sure to return all sentences, even if they don't have a flag. Transcript: "${formattedTranscript}"`;
 
     const analysisResponse = await openai.chat.completions.create({
       model: "gpt-4o-mini",

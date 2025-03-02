@@ -71,7 +71,7 @@ export const handleTranscription = async (req: Request, res: Response) => {
 
     console.log("✅ Title generated:", title);
 
-    const analysisPrompt = `Analyze the following transcript and identify any segments that contain fixed mindset language. If you find any, please provide details on which parts exhibit a fixed mindset and explain why. Transcript: "${formattedTranscript}"`;
+    const analysisPrompt = `Analyze the following transcript and identify any segments that contain fixed mindset language. Return your results as raw json in the format explained in the system context. If you find any, please provide details on which parts exhibit a fixed mindset and explain why. Transcript: "${formattedTranscript}"`;
 
     const analysisResponse = await openai.chat.completions.create({
       model: "gpt-4o-mini",

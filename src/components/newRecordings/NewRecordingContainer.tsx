@@ -1,21 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Lottie from "lottie-react";
 import recordingAnimation from "../../assets/recording.json"; // Ensure the correct path
+import loadingAnimation from "../../assets/loading-animation.json"; // Ensure the correct path
 
 import { selectedTranscriptAtom, transcriptsAtom } from "../../recoil/atoms";
 import { useAudioRecorder } from "../../hooks/useAudioRecorder";
 import { transcribeAudio } from "../../utils/transcribeAudio";
 import { saveTranscript } from "../../utils/saveTranscript";
 
+const transcribingMessages = [
+  "Converting your audio...",
+  "Working through who said what...",
+  "Scanning for growth mindset...",
+  "Identifying key moments...",
+  "Enhancing clarity and structure...",
+  "Detecting speaker emotions...",
+  "Summarizing core insights...",
+  "Finalizing your transcript...",
+];
+
 const NewRecordingContainer: React.FC = () => {
   const { isRecording, startRecording, stopRecording } = useAudioRecorder();
   const [isTranscribing, setIsTranscribing] = useState(false);
+  const [messageIndex, setMessageIndex] = useState(0);
   const setSelectedTranscript = useSetRecoilState(selectedTranscriptAtom);
   const setTranscripts = useSetRecoilState(transcriptsAtom);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isTranscribing) {
+      const interval = setInterval(() => {
+        setMessageIndex((prevIndex) => (prevIndex + 1) % transcribingMessages.length);
+      }, 2000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isTranscribing]);
 
   const handleStopRecording = async () => {
     setIsTranscribing(true);
@@ -49,15 +72,19 @@ const NewRecordingContainer: React.FC = () => {
   return (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
       {isRecording && (
-        <Lottie
-          animationData={recordingAnimation}
-          loop
-          style={{ width: 150, height: 150 }}
-        />
+        <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+          <Lottie animationData={recordingAnimation} loop style={{ width: 450, height: 450 }} />
+        </Box>
       )}
-      
-      {isRecording && <h3>Recording...</h3>}
-      {isTranscribing && <p>Transcribing...</p>}
+
+      {isTranscribing && (
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px" }}>
+          <Lottie animationData={loadingAnimation} loop style={{ width: 450, height: 450 }} />
+          <Typography variant="subtitle1" sx={{ marginTop: 0, fontWeight: "bold" }}>
+            {transcribingMessages[messageIndex]}
+          </Typography>
+        </Box>
+      )}
 
       <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
         <Button

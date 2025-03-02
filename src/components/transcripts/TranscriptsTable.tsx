@@ -52,11 +52,14 @@ const TranscriptsTable = ({ transcripts }: Props) => {
         <Table stickyHeader sx={{ width: "100%", tableLayout: "fixed" }}>
           <TableHead>
             <TableRow>
-              {["Date", "Title", "Recommendations", "Actions"].map((header) => (
+              {["Date", "Title", "Recommendations"].map((header) => (
                 <TableCell key={header} align="left" sx={tableHeaderStyles}>
                   {header}
                 </TableCell>
               ))}
+               <TableCell align="right" sx={tableHeaderStyles}>
+                Actions
+                </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

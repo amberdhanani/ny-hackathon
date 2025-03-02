@@ -81,14 +81,20 @@ export const handleTranscription = async (req: Request, res: Response) => {
       ],
     });
 
-    const analysis =
-      analysisResponse.choices && analysisResponse.choices[0].message
-        ? (analysisResponse.choices[0].message.content?.trim() ?? "Analysis not available.")
-        : "Analysis not available.";
+    const cleanJsonString = (jsonString: string) => {
+      return jsonString
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim();
+    };
 
-    console.log("✅ Analysis received:", analysis);
+    const analysisResponseText = analysisResponse.choices?.[0]?.message?.content?.trim() ?? "Analysis not available.";
+
+    const cleanedAnalysis = cleanJsonString(analysisResponseText);
+
+    console.log("✅ Analysis received:", cleanedAnalysis);
     console.log("title", title);
-    return res.json({ transcript: formattedTranscript, title, analysis, duration });
+    return res.json({ transcript: formattedTranscript, title, analysis: cleanedAnalysis, duration });
   } catch (error: unknown) {
     console.error("❌ Error processing request:", (error as Error).message);
     return res.status(500).json({ error: (error as Error).message || "Internal Server Error" });

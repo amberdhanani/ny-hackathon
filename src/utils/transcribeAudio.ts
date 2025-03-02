@@ -12,10 +12,11 @@ export const transcribeAudio = async (audioBlob: Blob) => {
 
     const data = await response.json();
     console.log("The data is:", data);
+
     return {
-      sentences: JSON.parse(data.analysis) || "Analysis Failed",
-      title: JSON.parse(data.title) || "Recording",
-      duration: data.duration ? JSON.parse(data.duration) : 0,
+      sentences: typeof data.analysis === "string" ? JSON.parse(data.analysis) : data.analysis,
+      title: data.title || "Recording",
+      duration: data.duration || 0,
     };
   } catch (error) {
     console.error("Error during transcription:", error);

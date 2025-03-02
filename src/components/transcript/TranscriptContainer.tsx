@@ -4,6 +4,7 @@ import TranscriptTopBar from "./TranscriptTopBar";
 import TranscriptBox from "./TranscriptBox";
 import AnalysisBox from "./AnalysisBox";
 import { useTranscriptNavigation } from "../../hooks/useTranscriptNavigation";
+import HighlightsBox from "./HighlightsBox";
 
 const TranscriptContainer = () => {
   const {
@@ -14,21 +15,31 @@ const TranscriptContainer = () => {
     handlePreviousFlaggedEntry,
     hasNextFlaggedEntry,
     hasPreviousFlaggedEntry,
+    subPage,
+    setSubPage,
   } = useTranscriptNavigation();
 
   return (
     <div style={styles.pageContainer}>
       {selectedTranscript && (
         <>
-          <TranscriptTopBar transcript={selectedTranscript} />
-          <Box sx={{ marginX: 4 }}>
+          <TranscriptTopBar transcript={selectedTranscript} setSubPage={setSubPage} subPage={subPage} />
+          <Box sx={{ marginX: 4, mt: 4 }}>
             <Grid container spacing={4}>
               <Grid size={{ sm: 7 }}>
-                <TranscriptBox
-                  transcript={selectedTranscript}
-                  handleClick={handleClick}
-                  selectedTranscriptEntry={selectedTranscriptEntry}
-                />
+                {subPage === "Highlights" ? (
+                  <HighlightsBox
+                    transcript={selectedTranscript}
+                    handleClick={handleClick}
+                    selectedTranscriptEntry={selectedTranscriptEntry}
+                  />
+                ) : (
+                  <TranscriptBox
+                    transcript={selectedTranscript}
+                    handleClick={handleClick}
+                    selectedTranscriptEntry={selectedTranscriptEntry}
+                  />
+                )}
               </Grid>
 
               {/* Analysis Section */}

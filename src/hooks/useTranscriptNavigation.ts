@@ -7,6 +7,7 @@ import { selectedTranscriptAtom } from "../recoil/atoms";
 export const useTranscriptNavigation = () => {
   const [selectedTranscriptEntry, setSelectedTranscriptEntry] = useState<TranscriptEntry | null>(null);
   const selectedTranscript = useRecoilValue(selectedTranscriptAtom);
+  const [subPage, setSubPage] = useState<"Transcript" | "Highlights">("Transcript");
   const navigate = useNavigate();
 
   // Redirect if no transcript is selected
@@ -71,5 +72,7 @@ export const useTranscriptNavigation = () => {
     handlePreviousFlaggedEntry,
     hasNextFlaggedEntry: !!findNextFlaggedEntry(),
     hasPreviousFlaggedEntry: !!findPreviousFlaggedEntry(),
+    subPage,
+    setSubPage,
   };
 };

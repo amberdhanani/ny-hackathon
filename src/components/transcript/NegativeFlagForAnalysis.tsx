@@ -34,7 +34,8 @@ const NegativeFlagForAnalysis = ({ entry }: Props) => {
               display: "flex",
               alignItems: "center",
               gap: "8px",
-              backgroundColor: "#bbdefb",
+              backgroundColor: "rgba(240, 249, 255, 1)",
+              border: "1px solid rgba(7, 89, 133, 1)",
               color: "#0d47a1",
               padding: "8px 12px",
               borderRadius: "6px",
@@ -42,7 +43,7 @@ const NegativeFlagForAnalysis = ({ entry }: Props) => {
             }}
           >
             <img src="/assets/check-circle.svg" alt="Good" style={{ width: "16px" }} />
-            <span style={{ fontSize: "14px", fontWeight: "600" }}>Try this instead</span>
+            <span style={{ fontSize: "14px", fontWeight: "600" }}>Try This Instead</span>
           </div>
           <p style={{ color: "#222", fontWeight: "500", lineHeight: "1.5" }}>{entry.flagDetails.tryInstead}</p>
 

@@ -6,6 +6,10 @@ import path from "path";
 import os from "os";
 import { context } from "./context";
 
+interface RawBodyRequest extends Request {
+  rawBody?: Buffer;
+}
+
 export const handleTranscription = async (req: Request, res: Response) => {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -18,7 +22,7 @@ export const handleTranscription = async (req: Request, res: Response) => {
 
   try {
     console.log("🟡 Reading full request body...");
-    const bodyBuffer = Buffer.from(req.body);
+    const bodyBuffer = (req as RawBodyRequest).rawBody || Buffer.from(req.body);
     console.log(`📦 Total request body size: ${bodyBuffer.length} bytes`);
 
     const { filePath, fileName } = await processFile(bodyBuffer, req.headers);

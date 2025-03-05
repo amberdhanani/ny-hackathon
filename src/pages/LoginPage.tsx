@@ -40,31 +40,18 @@ const LoginPage: React.FC = () => {
         {/* Logo at the top */}
         <Box
           component="img"
-          src="/assets/Logo-words.svg"
+          src="/assets/logo-words.svg"
           alt="Company Logo"
           sx={{ height: "80px", marginBottom: "20px" }}
         />
 
         {/* Inactive Email & Password Fields */}
-        <TextField
-          label="Email"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          disabled
-        />
-        <TextField
-          label="Password"
-          variant="outlined"
-          type="password"
-          fullWidth
-          margin="normal"
-          disabled
-        />
+        <TextField label="Email" variant="outlined" fullWidth margin="normal" disabled />
+        <TextField label="Password" variant="outlined" type="password" fullWidth margin="normal" disabled />
 
         {/* Google Sign-In Button */}
-       {/* Google Sign-In Button */}
-       <Button
+        {/* Google Sign-In Button */}
+        <Button
           onClick={signInWithGoogle}
           variant="contained"
           fullWidth

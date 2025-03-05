@@ -3,7 +3,7 @@ export const transcribeAudio = async (audioBlob: Blob) => {
   formData.append("audio", audioBlob, "recording.webm");
 
   try {
-    const response = await fetch("http://127.0.0.1:5001/ny-edtech-hackathon/us-central1/api/transcribe", {
+    const response = await fetch("https://api-h3dz3ibkuq-uc.a.run.app/transcribe", {
       method: "POST",
       body: formData,
     });

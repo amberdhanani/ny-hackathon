@@ -51,7 +51,11 @@ const NewRecordingContainer: React.FC = () => {
     }
 
     try {
-      const { sentences, title, duration } = await transcribeAudio(audioBlob);
+      const results = await transcribeAudio(audioBlob);
+      console.log("✅ Transcription result:", results);
+
+      const { sentences, title, duration } = results;
+
       const transcriptRecord = await saveTranscript({
         sentences,
         createdAt: new Date().toISOString(),
@@ -85,7 +89,7 @@ const NewRecordingContainer: React.FC = () => {
           <Lottie animationData={recordingAnimation} loop style={{ width: 450, height: 450 }} />
         </Box>
       )}
-  
+
       {isTranscribing && (
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px" }}>
           <Lottie animationData={loadingAnimation} loop style={{ width: 450, height: 450 }} />
@@ -94,7 +98,7 @@ const NewRecordingContainer: React.FC = () => {
           </Typography>
         </Box>
       )}
-  
+
       {/* Display the SVG image when not recording or transcribing */}
       {!isRecording && !isTranscribing && (
         <Box sx={{ width: "75%", maxWidth: "900px", marginBottom: "20px" }}>
@@ -109,39 +113,38 @@ const NewRecordingContainer: React.FC = () => {
           />
         </Box>
       )}
-  
+
       {/* Centered Button */}
       <Button
-  variant="contained"
-  onClick={isRecording ? handleStopRecording : startRecording}
-  sx={{
-    display: "flex",
-    padding: "12px 16px",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "8px",
-    borderRadius: "8px",
-    border: "1px solid #030217",
-    backgroundColor: isRecording ? "rgba(233, 26, 71, 0.1)" : "#4F46E5", // 10% opacity red for stop, purple for start
-    boxShadow: "2px 2px 0px 0px #030217",
-    fontSize: "16px",
-    color: isRecording ? "#E91A47" : "#fff", // Solid red text for stop, white for start
-    textTransform: "none",
-    "&:hover": {
-      backgroundColor: isRecording ? "rgba(233, 26, 71, 0.2)" : "#4338CA", // Slightly darker on hover
-      boxShadow: "2px 2px 0px 0px #030217",
-    },
-    "&:active": {
-      transform: "translate(1px, 1px)",
-      boxShadow: "1px 1px 0px 0px #030217",
-    },
-  }}
->
-  {isRecording ? "Stop Recording" : "Start Recording"}
-</Button>
+        variant="contained"
+        onClick={isRecording ? handleStopRecording : startRecording}
+        sx={{
+          display: "flex",
+          padding: "12px 16px",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "8px",
+          borderRadius: "8px",
+          border: "1px solid #030217",
+          backgroundColor: isRecording ? "rgba(233, 26, 71, 0.1)" : "#4F46E5", // 10% opacity red for stop, purple for start
+          boxShadow: "2px 2px 0px 0px #030217",
+          fontSize: "16px",
+          color: isRecording ? "#E91A47" : "#fff", // Solid red text for stop, white for start
+          textTransform: "none",
+          "&:hover": {
+            backgroundColor: isRecording ? "rgba(233, 26, 71, 0.2)" : "#4338CA", // Slightly darker on hover
+            boxShadow: "2px 2px 0px 0px #030217",
+          },
+          "&:active": {
+            transform: "translate(1px, 1px)",
+            boxShadow: "1px 1px 0px 0px #030217",
+          },
+        }}
+      >
+        {isRecording ? "Stop Recording" : "Start Recording"}
+      </Button>
     </Box>
   );
-  
 };
 
 export default NewRecordingContainer;

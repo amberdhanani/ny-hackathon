@@ -4,11 +4,29 @@ import OpenAI from "openai";
 import Busboy from "busboy";
 import path from "path";
 import os from "os";
+import ffmpeg from "fluent-ffmpeg"; // Import FFmpeg
 import { context } from "./context";
 
 interface RawBodyRequest extends Request {
   rawBody?: Buffer;
 }
+
+const convertToMp3 = (inputPath: string, outputPath: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    ffmpeg(inputPath)
+      .toFormat("mp3")
+      .audioCodec("libmp3lame")
+      .on("end", () => {
+        console.log(`🎵 Conversion successful: ${outputPath}`);
+        resolve(outputPath);
+      })
+      .on("error", (error) => {
+        console.error("❌ Error during conversion:", error);
+        reject(error);
+      })
+      .save(outputPath);
+  });
+};
 
 export const handleTranscription = async (req: Request, res: Response) => {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -25,14 +43,27 @@ export const handleTranscription = async (req: Request, res: Response) => {
     const bodyBuffer = (req as RawBodyRequest).rawBody || Buffer.from(req.body);
     console.log(`📦 Total request body size: ${bodyBuffer.length} bytes`);
 
-    const { filePath, fileName } = await processFile(bodyBuffer, req.headers);
+    let { filePath, fileName, mimeType } = await processFile(bodyBuffer, req.headers);
 
     if (!filePath) {
       console.log("❌ No valid file received.");
       return res.status(400).json({ error: "No file uploaded." });
     }
 
-    console.log(`🚀 Sending file "${fileName}" to OpenAI for transcription...`);
+    // 🔹 Convert M4A to MP3 before sending to OpenAI
+    if (mimeType === "audio/m4a") {
+      const convertedFilePath = filePath.replace(".m4a", ".mp3");
+      try {
+        await convertToMp3(filePath, convertedFilePath);
+        filePath = convertedFilePath; // Update file path to mp3
+        mimeType = "audio/mp3"; // Change mime type to mp3
+      } catch (error) {
+        console.error("❌ Failed to convert file:", error);
+        return res.status(500).json({ error: "File conversion failed." });
+      }
+    }
+
+    console.log(`🚀 Sending file "${fileName}" (${mimeType}) to OpenAI for transcription...`);
 
     const transcription = await openai.audio.transcriptions.create({
       file: fs.createReadStream(filePath),
@@ -106,8 +137,8 @@ export const handleTranscription = async (req: Request, res: Response) => {
     const cleanedAnalysis = cleanJsonString(analysisResponseText);
 
     console.log("✅ Analysis received:", cleanedAnalysis);
-    console.log("title", title);
-    return res.json({ transcript: formattedTranscript, title, analysis: cleanedAnalysis, duration });
+
+    return res.json({ transcript: formattedTranscript, title, duration, analysis: cleanedAnalysis });
   } catch (error: unknown) {
     console.error("❌ Error processing request:", (error as Error).message);
     return res.status(500).json({ error: (error as Error).message || "Internal Server Error" });
@@ -123,41 +154,54 @@ const processFile = async (
     const busboy = Busboy({ headers });
 
     let filePath: string | null = null;
-    let fileName = "unknown_file.webm";
+    let fileExtension = "webm"; // Default for Chrome
     let mimeType = "audio/webm";
+    let fileName = "";
 
-    console.log("🟡 Parsing file using Busboy...");
+    busboy.on("file", (_fieldname, file, fileInfo) => {
+      const { filename, mimeType: detectedMimeType } = fileInfo;
 
-    busboy.on(
-      "file",
-      (_fieldname: string, file: NodeJS.ReadableStream, filename: unknown, _encoding: string, mimetype: string) => {
-        if (typeof filename === "string") {
-          fileName = filename.trim();
-        } else {
-          console.warn("⚠️ Warning: filename is not a string, using default.");
-        }
+      console.log(`📂 Raw File Info - Filename: ${filename}, Detected MIME Type: ${detectedMimeType}`);
 
-        mimeType = typeof mimetype === "string" ? mimetype.trim() : "audio/webm";
-        console.log(`📂 File detected: ${fileName} (Type: ${mimeType})`);
+      if (typeof filename === "string") {
+        fileName = filename.trim();
+      } else {
+        console.warn("⚠️ Warning: filename is not a string, using default.");
+        fileName = "unknown_file";
+      }
 
-        filePath = path.join(os.tmpdir(), fileName);
-        const writeStream = fs.createWriteStream(filePath);
+      if (detectedMimeType.includes("audio/mp4")) {
+        fileExtension = "m4a";
+        mimeType = "audio/m4a";
+      } else if (detectedMimeType.includes("audio/webm")) {
+        fileExtension = "webm";
+        mimeType = "audio/webm";
+      } else {
+        console.warn(`⚠️ Warning: Unsupported MIME type detected: ${detectedMimeType}. Defaulting to webm.`);
+        fileExtension = "webm";
+        mimeType = "audio/webm";
+      }
 
-        file.pipe(writeStream);
+      fileName = `unknown_file.${fileExtension}`;
+      console.log(`📂 Final File Name: ${fileName}, MIME Type: ${mimeType}`);
 
-        writeStream.on("finish", () => {
-          console.log(`✅ File saved to: ${filePath}`);
-          resolve({ filePath, fileName, mimeType });
-        });
+      filePath = path.join(os.tmpdir(), fileName);
+      const writeStream = fs.createWriteStream(filePath);
 
-        writeStream.on("error", (error) => {
-          console.error("❌ File write error:", error);
-          reject(new Error(`File writing failed: ${error.message}`));
-        });
-      },
-    );
+      file.pipe(writeStream);
 
-    busboy.on("error", (error: any) => reject(new Error(`File upload failed: ${error.message}`)));
+      writeStream.on("finish", () => {
+        console.log(`✅ File saved successfully: ${filePath}`);
+        resolve({ filePath, fileName, mimeType });
+      });
+
+      writeStream.on("error", (error) => {
+        console.error("❌ File write error:", error);
+        reject(new Error(`File writing failed: ${error.message}`));
+      });
+    });
+
+    busboy.on("error", (error) => reject(new Error(`File upload failed: ${(error as Error).message}`)));
     busboy.end(bodyBuffer);
   });
 };

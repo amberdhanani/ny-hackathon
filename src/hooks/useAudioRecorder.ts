@@ -10,7 +10,10 @@ export const useAudioRecorder = () => {
     try {
       setDownloadUrl(null);
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4"; // Safari does not support "audio/webm"
+
+      const mediaRecorder = new MediaRecorder(stream, { mimeType });
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -32,7 +35,8 @@ export const useAudioRecorder = () => {
 
     return new Promise((resolve, reject) => {
       mediaRecorderRef.current!.onstop = () => {
-        const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        const blob = new Blob(audioChunksRef.current, { type: mediaRecorderRef.current!.mimeType || "audio/webm" });
+        console.log("🔹 Recorded blob type:", blob.type); // Add this log
         setDownloadUrl(URL.createObjectURL(blob));
         resolve(blob);
       };

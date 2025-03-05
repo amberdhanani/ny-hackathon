@@ -86,6 +86,6 @@ const tableContainerStyles = {
 };
 
 const tableHeaderStyles = {
-  backgroundColor: "rgba(79, 70, 229, 0.06)",
+  backgroundColor: "#F5F4FE",
   fontWeight: "bold",
 };

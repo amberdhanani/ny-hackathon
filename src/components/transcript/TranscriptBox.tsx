@@ -44,7 +44,6 @@ const paperStyles = {
   padding: "8px",
   borderRadius: 2,
   height: "calc(80vh - 200px)",
-  overflowY: "auto",
 };
 
 const contentBoxStyles = {
@@ -57,4 +56,5 @@ const contentBoxStyles = {
   boxSizing: "border-box",
   width: "100%",
   flexGrow: 1, // Ensures the box expands inside its parent
+  overflowY: "auto",
 };

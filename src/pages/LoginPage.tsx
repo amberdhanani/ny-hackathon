@@ -46,8 +46,8 @@ const LoginPage: React.FC = () => {
         />
 
         {/* Inactive Email & Password Fields */}
-        <TextField label="Email" variant="outlined" fullWidth margin="normal" disabled />
-        <TextField label="Password" variant="outlined" type="password" fullWidth margin="normal" disabled />
+        {/* <TextField label="Email" variant="outlined" fullWidth margin="normal" disabled />
+        <TextField label="Password" variant="outlined" type="password" fullWidth margin="normal" disabled /> */}
 
         {/* Google Sign-In Button */}
         {/* Google Sign-In Button */}

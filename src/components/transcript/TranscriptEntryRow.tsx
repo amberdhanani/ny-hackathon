@@ -59,15 +59,17 @@ const styles = {
   negativeText: {
     backgroundColor: "#FFF4E5",
     borderBottom: "1px solid #9A3412",
+    cursor: "pointer",
   },
   positiveText: {
     backgroundColor: "rgba(240, 249, 255, 1)",
     borderBottom: "1px solid rgba(7, 89, 133, 1)",
+    cursor: "pointer",
   },
   sentence: {
     marginBottom: "4px",
     padding: "10px",
-    cursor: "pointer",
+
     transition: "text-decoration 0.2s",
     lineHeight: "1.8",
     display: "flex",

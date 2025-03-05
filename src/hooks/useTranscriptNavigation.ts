@@ -18,7 +18,9 @@ export const useTranscriptNavigation = () => {
   }, [selectedTranscript, navigate]);
 
   const handleClick = (entry: TranscriptEntry) => {
-    setSelectedTranscriptEntry(entry);
+    if (entry.flag !== null) {
+      setSelectedTranscriptEntry(entry);
+    }
   };
 
   const findNextFlaggedEntry = () => {

@@ -127,6 +127,7 @@ const contentBoxStyles = {
   boxSizing: "border-box",
   width: "100%",
   flexGrow: 1, // Ensures the box expands inside its parent
+  overflow: "auto",
 };
 
 const entryListStyles = {

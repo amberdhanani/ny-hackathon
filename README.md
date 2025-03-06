@@ -40,7 +40,7 @@ npm run serve
 To enable OpenAI integration, create a `.env` file inside `functions/src` with the following content:
 
 ```
-OPEN_AI_KEY=your-api-key-here
+OPEN_API_KEY=your-api-key-here
 ```
 
 Replace `your-api-key-here` with your actual OpenAI API key.
